@@ -63,6 +63,7 @@ var BaseUI = (function() {
         // Make sure we're dealing with a blank table
         this.table.html("");
         this.text = this.el.children(".ui_list_text");
+        this.text.show();
 
         // Create a hidden form element
         this.value = $("<input type='hidden' id='"+ valid +"' value='' />").appendTo(this.el);
@@ -132,6 +133,7 @@ var BaseUI = (function() {
 var Socket = function(server, open_callback) {
     this.server = server;
     this.events = {};
+    var that = this;
 
     // Attempt to connect
     this.socket = new WebSocket("ws://" + server + "/api/socket", "grid-1.0");
@@ -147,9 +149,9 @@ var Socket = function(server, open_callback) {
 
     this.onMessage = function(evt) {
         // TODO: Catch bad JSON
-        data = JSON.parse(evt);
+        data = JSON.parse(evt.data);
         if(data.e != undefined)
-            this.localTrigger(data.e, data.data);
+            that.localTrigger(data.e, data.data);
     }
 
     this.onClose = function(evt) {
