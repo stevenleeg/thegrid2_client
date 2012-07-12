@@ -5,7 +5,8 @@ var MenuView = function(context) {
 
     this.onLoad = function() {
         // Hide the menu items we don't need.
-        $("#menu_items_join").css('visibility', 'hidden');
+        $("#menu_items_join").hide();
+        $("#menu_items_create").hide();
 
         // Events
         $("#menu_items_connect_submit").on("click", this, this.onConnect);
@@ -107,7 +108,8 @@ var MenuView = function(context) {
                 return;
             }
 
-            $("#menu_items_join").css('visibility', 'visible').hide().fadeIn();
+            $("#menu_items_join").fadeIn();
+            $("#menu_items_create").fadeIn();
         });
         // Set a temporary error handler for closing
         that.socket.socket.onclose = function() {
