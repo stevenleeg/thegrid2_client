@@ -11,3 +11,8 @@ $(document).ready(function() {
     Main.view_controller = new ViewController($("#content"));
     Main.view_controller.load(MenuView);
 });
+
+$(window).unload(function() {
+    if(Main.view_controller.current.socket != undefined)
+        Main.view_controller.current.socket.close()
+});
