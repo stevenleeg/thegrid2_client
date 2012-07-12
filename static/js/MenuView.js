@@ -132,10 +132,26 @@ var MenuView = function(context) {
 
         BaseUI.showWithScreen("#box_create");
         $("#box_create_submit").prop("disabled", true);
-
+        $("#box_create_name").on("keyup", that.onChangeName);
     };
 
+    // Called every time the server adds a new map
     this.onNewMap = function(map) {
-        that.map_list.addItem([map.name, map.size + "x" + map.size], map.name);
+        that.map_list.addItem([map.name, map.size + "x" + map.size], map.id);
+    }
+
+    // Called every time a map is selected
+    this.selectMap = function(val) {
+        if($("#box_create_name").val().length == 0 || val == null)
+            return $("#box_create_submit").prop("disabled", true);
+
+        $("#box_create_submit").prop("disabled", false);
+    }
+
+    // Called every time the grid name box is changed
+    this.onChangeName = function() {
+        if($(this).val().length == 0 || $("#box_create_val").val().length == 0)
+            return $("#box_create_submit").prop("disabled", true);
+        $("#box_create_submit").prop("disabled", false);
     }
 }
