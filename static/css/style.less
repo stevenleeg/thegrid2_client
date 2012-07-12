@@ -1,0 +1,199 @@
+/*
+* Colors and such!
+*/
+@bg: #F9F9F9;
+@light: #FFF;
+@dark: #121212;
+@darkish: #484848;
+@gray: #F5F5F5;
+
+@yellow: #FDB400;
+@blue: #128AFF;
+@red: #FE5655;
+@green: #32B78C;
+
+/*
+* Main stuff
+*/
+body {
+    margin: 0px;
+    padding: 0px;
+
+    /*background: url("/static/img/blueprint.png");*/
+    background: url("http://subtlepatterns.com/patterns/light_honeycomb.png");
+
+    color: @dark;
+    font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.init_loading {
+    margin: 150px auto 0px auto;
+    width: 200px;
+    text-align: center;
+    font-size: 36px;
+}
+
+.ui_screen {
+    display: none;
+    background-color: @dark;
+    opacity: .8;
+
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    z-index: 2;
+}
+
+.ui_list {
+    height: 100px;
+    width: 100%;
+    border: 1px solid @dark;
+    padding: 0px;
+    overflow-y: auto;
+
+    table {
+        width: 100%;
+        margin: 0px;
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid @gray;
+            cursor: default;
+        }
+        
+        tr.selected {
+            background: @blue;
+            color: @light;
+        }
+
+        tr:last-child {
+            td {
+                border-bottom: 0px;
+            }
+        }
+    }
+
+    .ui_list_text {
+        font-weight: 400;
+        text-align: center;
+        height: 100px;
+        line-height: 100px;
+        font-size: 18px;
+    }
+}
+
+input {
+    font-family: Helvetica-Neue, Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    border: 0px;
+    font-weight: 300;
+    outline: none;
+}
+
+input[type=text] {
+    display: block;
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+    border-bottom: 1px dotted @darkish;
+}
+
+input[type=submit] {
+    width: 100px;
+    background: @blue;
+    color: @light;
+    padding: 5px;
+    margin: 5px 0px 5px 0px;
+}
+
+input[type=submit]:not([disabled]):hover {
+    background: darken(@blue, 5%);
+}
+
+input[type=submit]:not([disabled]):active {
+    background: darken(@blue, 5%);
+    box-shadow: inset 0px 0px 15px @dark;
+}
+
+input[disabled] {
+    background: @gray;
+    color: @dark;
+}
+
+.no_display {
+    display: none;
+}
+
+/*
+* Main menu
+*/
+.menu_title {
+    position: fixed;
+    top: 5px;
+    left: 20px;
+    padding: 10px;
+
+    font-size: 72px;
+
+    .blue {
+        color: @blue;
+    }
+}
+
+.menu_items {
+    position: fixed;
+    top: 175px;
+    left: 150px;
+    margin: 5px auto 0px auto;
+
+    a {
+        display: block;
+        color: @dark;
+        text-decoration: none;
+        padding: 15px;
+
+        font-size: 32px;
+    }
+
+    a:hover {
+        color: @blue;
+    }
+}
+
+.menu_box {
+    background: @light;
+    border-radius: 3px;
+    box-shadow: 0px 0px 50px @dark;
+
+    z-index: 2;
+    position: fixed;
+    margin-left: -200px;
+    top: 150px;
+    left: 50%;
+    width: 400px;
+    padding: 5px 10px 10px 10px;
+    display: none;
+
+    h1 {
+        display: block;
+        border-bottom: 1px solid @gray;
+        
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0px 0px 5px 0px;
+        padding: 5px;
+    }
+}
+
+.menu_invalid {
+    display: none;
+    color: @red;
+    font-weight: 400;
+    font-size: 12px;
+}

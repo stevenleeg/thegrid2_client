@@ -1,0 +1,26 @@
+<div class=menu_title id=menu_title>the<span class=blue>grid</span></div>
+<div class=menu_items id=menu_items>
+    <a href=# id=menu_items_connect>connect to a server</a>
+    <a href=# id=menu_items_join class=menu_item_disabled>join a game</a>
+</div>
+
+<div class=menu_box id=box_connect>
+    <h1>connect to a server</h1>
+    <div class=ui_list id=box_connect_list>
+        <table>
+        </table>
+    </div>
+    <input class=no_display type=text id=menu_items_connect_other placeholder="server hostname" />
+    <input type=submit id=menu_items_connect_submit value=connect />
+    <span class=menu_invalid id=menu_items_connect_invalid>cannot connect to server</span>
+</div>
+
+<div class=menu_box id=box_join>
+    <h1>join a game</h1>
+    <div class=ui_list id=box_join_list>
+        <div class=ui_list_text>no grids available</div>
+        <table>
+        </table>
+    </div>
+    <input type=submit id=box_join_submit value=join />
+</div>
