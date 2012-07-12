@@ -2,6 +2,7 @@ var MenuView = function(context) {
     this.tpl = "menu.html";
     this.server = null;
     this.socket = null;
+    var that = this;
 
     this.onLoad = function() {
         // Hide the menu items we don't need.
@@ -12,6 +13,7 @@ var MenuView = function(context) {
         $("#menu_items_connect_submit").on("click", this, this.onConnect);
         $("#menu_items_connect").on("click", this, this.onShowBoxConnect);
         $("#menu_items_join").on("click", this, this.onShowBoxJoin);
+        $("#menu_items_create").on("click", this, this.onShowBoxCreate);
     }
 
     this.selectServer = function(val) {
@@ -115,5 +117,25 @@ var MenuView = function(context) {
         that.socket.socket.onclose = function() {
             $("#menu_items_connect_invalid").fadeIn();
         };
+    }
+
+    // Called when "create grid" is clicked
+    this.onShowBoxCreate = function(e) {
+        var that = e.data;
+
+        // Get a list of maps if we need to
+        if(that.map_list == undefined) {
+            that.map_list = new BaseUI.List($("#box_create_maps"), "box_create_val", that.selectMap);
+            that.socket.on("m.newMap", that.onNewMap);
+            that.socket.trigger("g.getMaps");
+        }
+
+        BaseUI.showWithScreen("#box_create");
+        $("#box_create_submit").prop("disabled", true);
+
+    };
+
+    this.onNewMap = function(map) {
+        that.map_list.addItem([map.name, map.size + "x" + map.size], map.name);
     }
 }
