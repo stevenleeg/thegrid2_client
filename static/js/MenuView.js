@@ -75,14 +75,13 @@ var MenuView = function(context) {
 
         // Create the list
         that.game_list = new BaseUI.List($("#box_join_list"), "box_join_val", that.selectGame);
-        that.socket.on("m.newGrid", this.onNewGrid);
+        that.socket.on("m.newGrid", that.onNewGrid);
         that.socket.trigger("m.getGrids");
     }
 
-    // Called every time a new server is added to the list
+    // Called every time a new grid is added to the list
     this.onNewGrid = function(grid) {
-        alert(this.socket);
-        this.game_list.addItem([grid.name], grid.id);
+        that.game_list.addItem([grid.name], grid.id);
     }
 
     // Called every time the "other" box changes
@@ -138,7 +137,7 @@ var MenuView = function(context) {
         }
 
         BaseUI.showWithScreen("#box_create");
-        $("#box_create_submit").prop("disabled", true);
+        $("#box_create_submit").prop("disabled", true).on("click", that, that.onCreate);
         $("#box_create_name").on("keyup", that.onChangeName);
     };
 
@@ -160,5 +159,21 @@ var MenuView = function(context) {
         if($(this).val().length == 0 || $("#box_create_val").val().length == 0)
             return $("#box_create_submit").prop("disabled", true);
         $("#box_create_submit").prop("disabled", false);
+    }
+
+    // Called when "create" is pressed
+    this.onCreate = function(e) {
+        var that = e.data;
+
+        that.socket.on("m.createGridSuccess", that.onCreateSuccess);
+        that.socket.trigger("m.createGrid", {
+            name: $("#box_create_name").val(),
+            map: $("#box_create_val").val()
+        });
+    }
+
+    // Called when the grid has been created
+    this.onCreateSuccess = function(data) {
+        BaseUI.hideWithScreen("#box_create");
     }
 }
