@@ -76,7 +76,7 @@ var MenuView = function(context) {
         // Create the list
         that.game_list = new BaseUI.List($("#box_join_list"), "box_join_val", that.selectGame);
         that.socket.on("m.newGrid", this.onNewGrid);
-        that.socket.trigger("g.getGrids");
+        that.socket.trigger("m.getGrids");
     }
 
     // Called every time a new server is added to the list
@@ -134,7 +134,7 @@ var MenuView = function(context) {
         if(that.map_list == undefined) {
             that.map_list = new BaseUI.List($("#box_create_maps"), "box_create_val", that.selectMap);
             that.socket.on("m.newMap", that.onNewMap);
-            that.socket.trigger("g.getMaps");
+            that.socket.trigger("m.getMaps");
         }
 
         BaseUI.showWithScreen("#box_create");
