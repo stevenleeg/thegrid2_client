@@ -20,8 +20,15 @@ var MenuView = function(context) {
         var other = $("#menu_items_connect_other");
         $("#menu_items_connect_invalid").fadeOut();
         if(val == "other") {
-            other.slideDown();
             other.val("");
+            
+            // Jumping through hoops due to a crazy bug in chrome I think
+            other.slideDown(function() {
+                other.hide();
+                setTimeout(function() {
+                    other.show();
+                }, 1);
+            });
         } else {
             other.slideUp();
         }
