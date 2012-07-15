@@ -1,3 +1,11 @@
+/*
+ * MenuView - The main view for the menu of the game
+ * This file follows a slightly logical pattern. All of the functions
+ * (there may be some exceptions in the beginning, but I've tried to 
+ * follow it at the end) are in order of how the typical user should
+ * navigate through these menus:
+ * Connect -> Join/Create -> Lobby/Send to game
+ */
 var MenuView = function(context) {
     this.tpl = "menu.html";
     this.server = null;
