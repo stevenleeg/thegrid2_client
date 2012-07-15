@@ -184,5 +184,9 @@ var MenuView = function(context) {
     // Called when the grid has been created
     this.onCreateSuccess = function(data) {
         BaseUI.hideWithScreen("#box_create");
+
+        $("#menu_items").fadeOut();
+        $("#menu_room").fadeIn();
+        $("#menu_room_p1").css("background", "#FDB400").addClass("joined");
     }
 }

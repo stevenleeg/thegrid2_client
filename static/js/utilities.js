@@ -119,8 +119,8 @@ var BaseUI = (function() {
         $(el).fadeOut(250);
         $("#ui_screen")
             .fadeOut(250)
-            .data("el", undefined)
-            .off("click");
+            .off("click")
+            .data("el", undefined);
     }
 
     return {

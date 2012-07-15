@@ -5,6 +5,7 @@
 @light: #FFF;
 @dark: #121212;
 @darkish: #484848;
+@darkgray: #AAAAAA;
 @gray: #F5F5F5;
 
 @yellow: #FDB400;
@@ -198,9 +199,29 @@ input[disabled] {
     }
 }
 
+.menu_box.less_shadow {
+    box-shadow: 0px 0px 15px @dark;
+}
+
 .menu_invalid {
     display: none;
     color: @red;
     font-weight: 400;
     font-size: 12px;
+}
+
+.room_list {
+    width: 100%;
+    border-spacing: 5px 5px;
+
+    td {
+        padding: 20px 10px 20px 10px;
+        text-align: center;
+        color: @darkgray;
+    }
+
+    td.joined {
+        font-weight: 400;
+        color: @light;
+    }
 }
