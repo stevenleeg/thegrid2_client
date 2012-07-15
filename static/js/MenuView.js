@@ -72,9 +72,6 @@ var MenuView = function(context) {
 
     // Called when "Join game" is pressed
     this.onShowBoxJoin = function(e) {
-        var that, list;
-        that = e.data;
-
         // Display the box
         BaseUI.showWithScreen($("#box_join"));
 
@@ -83,8 +80,10 @@ var MenuView = function(context) {
 
         // Create the list
         that.game_list = new BaseUI.List($("#box_join_list"), "box_join_val", that.selectGrid);
+        // Some events
         that.socket.on("m.newGrid", that.onNewGrid);
         that.socket.trigger("m.getGrids");
+        $("#box_join_submit").on("click", that.onJoin);
     }
 
     this.selectGrid = function(val) {
@@ -200,6 +199,16 @@ var MenuView = function(context) {
         });
     }
 
+    // Called when the join button is pressed
+    this.onJoin = function() {
+        var gid;
+        gid = parseInt($("#box_join_val").val());
+        
+        that.socket.on("m.joinGridSuccess", that.onJoinSuccess);
+        that.socket.on("m.joinGridError", that.onJoinError);
+        that.socket.trigger("m.joinGrid", { id: gid });
+    }
+
     // Called when there is an error trying to join a grid
     this.onJoinError = function(data) {
         alert(data.error);
@@ -209,6 +218,8 @@ var MenuView = function(context) {
     this.onJoinSuccess = function(data) {
         if(data.active)
             return; // Go to GameView
+
+        BaseUI.hideWithScreen("#box_join");
 
         // Hide the menu items and show the room UI
         $("#menu_items").fadeOut();
@@ -225,8 +236,7 @@ var MenuView = function(context) {
             $("#menu_room_start").prop("disabled", false);
 
         // Listen for new players
-        socket.on("g"+data.id+".newPlayer", that.onNewPlayer);
-        socket.trigger("r.sub", { e: "g"+data.id+".newPlayer"});
+        that.socket.on("g"+data.id+".newPlayer", that.onNewPlayer, true);
 
         // Store the data for later
         that.grid_data = data;
@@ -235,7 +245,7 @@ var MenuView = function(context) {
     // Called when a new player joins
     this.onNewPlayer = function(data) {
         $("#menu_room_p" + data.pid)
-            .css("background", that.grid_data.colors[that.grid_data.players[data.pid]])
+            .css("background", that.grid_data.colors[data.pid])
             .addClass("joined");
     }
 }

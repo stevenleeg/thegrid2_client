@@ -176,9 +176,12 @@ var Socket = function(server, open_callback) {
     //
     // Registers an event to a callback
     //
-    this.on = function(event, callback) {
+    this.on = function(event, callback, remote) {
         if(this.events[event] == undefined)
             this.events[event] = [];
+        // This registers the event with the server
+        if(remote)
+            this.trigger("r.sub", { e: event});
 
         this.events[event].push(callback);
     }
