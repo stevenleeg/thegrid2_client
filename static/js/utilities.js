@@ -142,6 +142,9 @@ var Socket = function(server, open_callback) {
         var send = {};
         if(data == undefined) data = {};
 
+        if(DEBUG)
+            console.log("Sent event: " + event);
+
         send.e = event;
         send.data = data;
         this.socket.send(JSON.stringify(send));
@@ -150,6 +153,8 @@ var Socket = function(server, open_callback) {
     this.onMessage = function(evt) {
         // TODO: Catch bad JSON
         data = JSON.parse(evt.data);
+        if(DEBUG)
+            console.log("Recieved event: " + data.e);
         if(data.e != undefined)
             that.localTrigger(data.e, data.data);
     }

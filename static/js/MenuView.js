@@ -193,8 +193,49 @@ var MenuView = function(context) {
     this.onCreateSuccess = function(data) {
         BaseUI.hideWithScreen("#box_create");
 
+        that.socket.on("m.joinGridSuccess", that.onJoinSuccess);
+        that.socket.on("m.joinGridError", that.onJoinError);
+        that.socket.trigger("m.joinGrid", {
+            id: data.id
+        });
+    }
+
+    // Called when there is an error trying to join a grid
+    this.onJoinError = function(data) {
+        alert(data.error);
+    }
+
+    // Called when we recieve the event m.joinGridSuccess
+    this.onJoinSuccess = function(data) {
+        if(data.active)
+            return; // Go to GameView
+
+        // Hide the menu items and show the room UI
         $("#menu_items").fadeOut();
         $("#menu_room").fadeIn();
-        $("#menu_room_p1").css("background", "#FDB400").addClass("joined");
+
+        // Fill in the slots for players in the game
+        for(var i in data.players) {
+            $("#menu_room_p" + data.players[i]).css("background", data.colors[data.players[i]]).addClass("joined");
+        }
+        $("#menu_room_p" + data.pid).text("you");
+
+        // If we have more than one user enable the start button
+        if(data.players.length > 1)
+            $("#menu_room_start").prop("disabled", false);
+
+        // Listen for new players
+        socket.on("g"+data.id+".newPlayer", that.onNewPlayer);
+        socket.trigger("r.sub", { e: "g"+data.id+".newPlayer"});
+
+        // Store the data for later
+        that.grid_data = data;
+    }
+
+    // Called when a new player joins
+    this.onNewPlayer = function(data) {
+        $("#menu_room_p" + data.pid)
+            .css("background", that.grid_data.colors[that.grid_data.players[data.pid]])
+            .addClass("joined");
     }
 }
