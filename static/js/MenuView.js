@@ -232,11 +232,15 @@ var MenuView = function(context) {
         $("#menu_room_p" + data.pid).text("you");
 
         // If we have more than one user enable the start button
-        if(data.players.length > 1)
+        if(data.players.length > 1 && data.host == data.pid)
             $("#menu_room_start").prop("disabled", false);
+        if(data.host != data.pid)
+            $("#menu_room_start").val("waiting");
 
         // Listen for new players
-        that.socket.on("g"+data.id+".newPlayer", that.onNewPlayer, true);
+        that.socket.on("g.addPlayer", that.onNewPlayer);
+        that.socket.on("g.delPlayer", that.onDelPlayer);
+        that.socket.on("g.newHost", that.onNewHost);
 
         // Store the data for later
         that.grid_data = data;
@@ -244,8 +248,32 @@ var MenuView = function(context) {
 
     // Called when a new player joins
     this.onNewPlayer = function(data) {
+        that.grid_data.players.push(data.pid);
         $("#menu_room_p" + data.pid)
             .css("background", that.grid_data.colors[data.pid])
             .addClass("joined");
+
+        // If we have more than one user enable the start button
+        if(that.grid_data.players.length > 1 && that.grid_data.host == that.grid_data.pid)
+            $("#menu_room_start").prop("disabled", false);
+    }
+
+    this.onDelPlayer = function(data) {
+        that.grid_data.players.splice(that.grid_data.players.indexOf(data.pid), 1);
+        $("#menu_room_p" + data.pid)
+            .css("background", "")
+            .removeClass("joined");
+        
+        // If we have more than one user enable the start button
+        if(that.grid_data.players.length <= 1 && that.grid_data.host == that.grid_data.pid)
+            $("#menu_room_start").prop("disabled", true);
+    }
+
+    this.onNewHost = function(data) {
+        that.grid_data.host = data.pid;
+        if(that.grid_data.host == that.grid_data.pid)
+            $("#menu_room_start").val("start game");
+        if(that.grid_data.players.length > 1 && that.grid_data.host == that.grid_data.pid)
+            $("#menu_room_start").prop("disabled", true);
     }
 }
