@@ -79,12 +79,15 @@ var MenuView = function(context) {
         // Disable the join button
         $("#box_join_submit").prop("disabled", true);
 
-        // Create the list
-        that.game_list = new BaseUI.List($("#box_join_list"), "box_join_val", that.selectGrid);
         // Some events
         that.socket.on("m.newGrid", that.onNewGrid);
-        that.socket.trigger("m.getGrids");
         $("#box_join_submit").on("click", that.onJoin);
+
+        // Create the list
+        if(that.game_list == undefined) {
+            that.game_list = new BaseUI.List($("#box_join_list"), "box_join_val", that.selectGrid);
+            that.socket.trigger("m.getGrids");
+        }
     }
 
     this.selectGrid = function(val) {
