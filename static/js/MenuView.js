@@ -22,6 +22,7 @@ var MenuView = function(context) {
         $("#menu_items_connect").on("click", this, this.onShowBoxConnect);
         $("#menu_items_join").on("click", this, this.onShowBoxJoin);
         $("#menu_items_create").on("click", this, this.onShowBoxCreate);
+        $("#menu_room_start").on("click", this, this.onStartGame);
     }
 
     this.selectServer = function(val) {
@@ -206,6 +207,7 @@ var MenuView = function(context) {
         
         that.socket.on("m.joinGridSuccess", that.onJoinSuccess);
         that.socket.on("m.joinGridError", that.onJoinError);
+        that.socket.on("g.startGrid", that.onStartGrid);
         that.socket.trigger("m.joinGrid", { id: gid });
     }
 
@@ -258,6 +260,7 @@ var MenuView = function(context) {
             $("#menu_room_start").prop("disabled", false);
     }
 
+    // Called when a player leaves
     this.onDelPlayer = function(data) {
         that.grid_data.players.splice(that.grid_data.players.indexOf(data.pid), 1);
         $("#menu_room_p" + data.pid)
@@ -269,11 +272,24 @@ var MenuView = function(context) {
             $("#menu_room_start").prop("disabled", true);
     }
 
+    // Called when the host leaves and the server has to assign
+    // a new host pid
     this.onNewHost = function(data) {
         that.grid_data.host = data.pid;
         if(that.grid_data.host == that.grid_data.pid)
             $("#menu_room_start").val("start game");
         if(that.grid_data.players.length > 1 && that.grid_data.host == that.grid_data.pid)
             $("#menu_room_start").prop("disabled", true);
+    }
+    
+    // Called when the "start game" button is pressed
+    // TODO: This naming is confusing
+    this.onStartGame = function() {
+        that.socket.trigger("g.startGrid");
+    }
+
+    // Called when the host starts the game
+    this.onStartGrid = function() {
+        alert("The game has begun!");
     }
 }
