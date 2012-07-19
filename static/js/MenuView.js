@@ -210,7 +210,6 @@ var MenuView = function(context) {
         
         that.socket.on("m.joinGridSuccess", that.onJoinSuccess);
         that.socket.on("m.joinGridError", that.onJoinError);
-        that.socket.on("g.startGrid", that.onStartGrid);
         that.socket.trigger("m.joinGrid", { id: gid });
     }
 
@@ -221,8 +220,14 @@ var MenuView = function(context) {
 
     // Called when we recieve the event m.joinGridSuccess
     this.onJoinSuccess = function(data) {
-        if(data.active)
-            return; // Go to GameView
+        if(data.active) {
+            BaseUI.hideWithScreen("#box_join");
+            Main.view_controller.load(GameView, {
+                grid_data: data,
+                socket: that.socket
+            });
+            return;
+        }
 
         BaseUI.hideWithScreen("#box_join");
 
@@ -246,6 +251,7 @@ var MenuView = function(context) {
         that.socket.on("g.addPlayer", that.onNewPlayer);
         that.socket.on("g.delPlayer", that.onDelPlayer);
         that.socket.on("g.newHost", that.onNewHost);
+        that.socket.on("g.startGrid", that.onStartGrid);
 
         // Store the data for later
         that.grid_data = data;
@@ -293,6 +299,9 @@ var MenuView = function(context) {
 
     // Called when the host starts the game
     this.onStartGrid = function() {
-        alert("The game has begun!");
+        Main.view_controller.load(GameView, {
+            grid_data: that.grid_data,
+            socket: that.socket
+        });
     }
 }

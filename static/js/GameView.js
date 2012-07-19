@@ -1,6 +1,6 @@
 var GameView = function(context) {
     this.tpl = "game.html";
-    //this.socket = context.socket;
+    this.socket = context.socket;
     var that = this;
     
     this.onLoad = function() {

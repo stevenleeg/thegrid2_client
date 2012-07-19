@@ -33,10 +33,10 @@ var ViewController = function(el) {
                 return;
             }
 
-            el.fadeOut(250, function() {
+            that.el.fadeOut(250, function() {
                 // Remove the old container and change temp's id
                 // to match the old's
-                el.remove();
+                that.el.remove();
                 temp.attr("id", id);
                 that.el = temp;
                 if(that.current.onLoad != undefined) that.current.onLoad(context);
