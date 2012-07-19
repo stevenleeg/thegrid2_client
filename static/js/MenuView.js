@@ -23,6 +23,15 @@ var MenuView = function(context) {
         $("#menu_items_join").on("click", this, this.onShowBoxJoin);
         $("#menu_items_create").on("click", this, this.onShowBoxCreate);
         $("#menu_room_start").on("click", this, this.onStartGame);
+
+        if(DEBUG) {
+            setTimeout(function() {
+                $("<input type=hidden id=box_connect_val />").appendTo("body");
+                $("#box_connect_val").val("localhost:8080");
+                that.onConnect();
+                $("#box_connect_val").remove();
+            }, 200);
+        }
     }
 
     this.selectServer = function(val) {
@@ -117,7 +126,6 @@ var MenuView = function(context) {
 
     // Called when the connect button is clicked
     this.onConnect = function(e) {
-        var that = e.data;
         // Close any currently opened socket
         if(that.socket != null) {
             that.socket.socket.onclose = function() {};
