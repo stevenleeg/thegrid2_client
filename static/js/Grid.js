@@ -24,7 +24,7 @@ var Grid = function(canvas, sx, sy) {
                         coord[1], 
                         this.r
                     );
-                this.grid[x][y].rotate(30).attr({fill: "#FFF", stroke: "#F0F3F6"})
+                this.grid[x][y].rotate(30).attr({fill: "#FFF", stroke: "#969696"})
                     .data("coord", x + "_" + y)
                     .data("grid", this)
                     .mousedown(Coord.mousedown)

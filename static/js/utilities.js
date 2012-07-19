@@ -104,15 +104,18 @@ var BaseUI = (function() {
         }
     }
 
-    var showWithScreen = function(el) {
+    var showWithScreen = function(el, invisible_screen) {
         $(el).fadeIn(250);
         $("#ui_screen")
             .data("el", el)
-            .fadeIn(250)
             .on("click", function() {
                 $(this).fadeOut();
                 $($(this).data("el")).fadeOut();
             });
+        if(invisible_screen)
+            $("#ui_screen").show().css("opacity", "0");
+        else
+            $("#ui_screen").fadeIn();
     }
 
     var hideWithScreen = function(el) {

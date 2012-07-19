@@ -9,7 +9,8 @@ $(document).ready(function() {
 
     // Decide what to load
     Main.view_controller = new ViewController($("#content"));
-    Main.view_controller.load(MenuView);
+    //Main.view_controller.load(MenuView);
+    Main.view_controller.load(GameView);
 });
 
 $(window).unload(function() {

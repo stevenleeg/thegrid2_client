@@ -22,6 +22,7 @@ body {
 
     /*background: url("/static/img/blueprint.png");*/
     background: url("http://subtlepatterns.com/patterns/light_honeycomb.png");
+    background-size: 135px 135px;
 
     color: @dark;
     cursor: default;
@@ -224,4 +225,161 @@ input[disabled] {
         font-weight: 400;
         color: @light;
     }
+}
+
+.game_grid {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 50px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    background: url("http://subtlepatterns.com/patterns/fabric_plaid.png");
+    background-size: 100px 100px;
+}
+
+.game_menu {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 50px;
+    line-height: 50px;
+
+    background: @light;
+    border-top: 1px solid @darkgray;
+    box-shadow: 0px 0px 15px @darkgray;
+}
+
+.game_fullscreen_request {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    padding: 5px;
+    
+    background: @yellow;
+    color: @light;
+
+    a {
+        color: @red;
+        font-weight: 400;
+        text-decoration: none;
+    }
+
+    a.close {
+        display: block;
+        float: right;
+        color: @light;
+        font-size: 22px;
+        line-height: 25px;
+        margin-right: 5px;
+    }
+}
+
+.game_canvas {
+    margin: 0px auto 0px auto;
+}
+
+.game_menu_item {
+    display: inline-block;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 0px 15px 0px 15px;
+    color: @dark;
+}
+
+.game_menu_status {
+    display: inline-block;
+    font-size: 18px;
+    padding: 0px 15px 0px 15px;
+    color: @dark;
+}
+
+.game_menu_item:hover {
+    background: @blue;
+    color: @light;
+}
+
+.game_menu_right {
+    float: right;
+}
+
+.game_menu_popover {
+    display: none;
+    position: fixed;
+    bottom: 65px;
+    left: 15px;
+    width: 200px;
+    background: @light;
+    border: 1px solid @darkgray;
+    z-index: 3;
+    box-shadow: 0px 0px 20px @darkgray;
+    border-radius: 3px;
+
+    table {
+        border-spacing: 0px 0px;
+        font-size: 20px;
+        width: 100%;
+        td {
+            padding: 10px 5px 10px 5px;
+            border-bottom: 1px solid @gray;
+        }
+        tr {
+            td:nth-child(1) {
+                font-size: 22px;
+                text-align: center;
+            }
+            td:nth-child(2) {
+                text-align: left;
+            }
+            td:nth-child(3) {
+                font-size: 18px;
+                color: @darkgray;
+            }
+        }
+        tr:last-child {
+            td {
+                border-bottom: 0px;
+            }
+        }
+        tr:hover {
+            background: @blue;
+            color: @light;
+        }
+    }
+
+    .game_menu_popover_section {
+        display: none;
+    }
+}
+
+.game_menu_popover:after, .arrow_box:before {
+	top: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.game_menu_popover:after {
+	border-top-color: @light;
+	border-width: 15px;
+	left: 50px;
+	margin-left: -15px;
+}
+.game_menu_popover:before {
+	border-top-color: @darkgray;
+	border-width: 16px;
+	left: 50%;
+	margin-left: -16px;
 }
