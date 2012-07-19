@@ -58,7 +58,7 @@ var Coord = function(grid, x, y) {
             32
         );
         // Natural tiles have a slightly different color
-        if(type > 50) this.elem.attr({fill: GameStyle['color']['coord_natural']});
+        if(type > 50) this.elem.attr({fill: this.grid.style['coord_natural']});
         img.data("coord", this.str)
             .data("grid", this.grid)
             .mousedown(Coord.mousedown)
@@ -81,10 +81,10 @@ var Coord = function(grid, x, y) {
 
     // Sets the owner of the tile and its color
     this.setOwner = function(owner) {
-        if(GameData['colors'][owner] == undefined) return;
+        if(this.grid.colors[owner] == undefined) return;
 
         if(this.getData("type") == undefined) this.setData("type", 1);
-        this.elem.animate({fill: GameData['colors'][owner]}, 75);
+        this.elem.animate({fill: this.grid.colors[owner]}, 75);
         this.setData("player", owner);
 
         this.grid.sendEventCallback({coord: this}, "coord.setOwner");
@@ -180,7 +180,7 @@ var Coord = function(grid, x, y) {
         rect = this.grid.canvas.rect(point[0] - this.grid.r + 10, point[1] - 5 + 10, width, 5);
 
         if(perc > 1) { 
-            rect.data("glow", rect.glow({color: GameStyle['color']['blue'], }));
+            rect.data("glow", rect.glow({color: this.grid.style['blue'], }));
             rect.data("glow").attr({opacity:0})
                 .toBack()
                 .mouseup(Coord.mouseup) 
@@ -188,7 +188,7 @@ var Coord = function(grid, x, y) {
                 .data("coord", this.str);
         }
 
-        rect.attr({fill: GameStyle['color'][cls], stroke:"none", opacity:0})
+        rect.attr({fill: this.grid.style[cls], stroke:"none", opacity:0})
             .data("grid", this.grid)
             .data("coord", this.str)
             .mouseup(Coord.mouseup)
@@ -209,7 +209,7 @@ var Coord = function(grid, x, y) {
     this.hideHealth = function() {
         this.getData("healthbar").animate({opacity:0}, 75, function() { this.toBack(); });
         if(this.getData("tile") != undefined) this.getData("tile").animate({opacity:1}, 75);
-        this.elem.animate({fill: GameData['colors'][this.getData("player")]}, 75);
+        this.elem.animate({fill: this.grid.colors[this.getData("player")]}, 75);
         if(this.getData("healthbar").data("glow") != undefined) {
             this.getData("healthbar").data("glow").animate({opacity:0}, 75, function() { this.toBack() });
         }
@@ -229,7 +229,7 @@ var Coord = function(grid, x, y) {
 
     this.glow = function(color) {
         var glow = this.elem.glow({
-            color: GameStyle['color'][color],
+            color: this.grid.style[color],
             opacity: 0
         });
         glow.animate({opacity:.1}, 200);
@@ -354,7 +354,7 @@ Coord.mousedown = function(e) {
     
     // See if we can rotate
     if(e.which == 3) {
-        if(!coord.exists() || coord.getData("player") != GameData['pid'] || coord.property("rotate") == undefined) return;
+        if(!coord.exists() || coord.getData("player") != grid.owner || coord.property("rotate") == undefined) return;
         coord.rotate(60);
         GameEvents.rotate(coord);
         return;
@@ -391,10 +391,10 @@ Coord.mouseover = function() {
     grid.hover = coord;
     if(grid.place_mode) {
         if(PlaceCheck[grid.place_type](coord)) {
-            coord.elem.attr({fill: GameStyle['color']['place_good']});
+            coord.elem.attr({fill: grid.style['place_good']});
             coord.setData("place", true);
         } else {
-            coord.elem.attr({fill: GameStyle['color']['place_bad']});
+            coord.elem.attr({fill: grid.style['place_bad']});
         }
     }
 }
@@ -408,9 +408,9 @@ Coord.mouseout = function() {
     if(grid.place_mode) {
         coord.rmData("place");
         if(coord.getData("player") > 0) {
-            coord.elem.attr({fill: GameData['colors'][coord.getData("player")]});
+            coord.elem.attr({fill: grid.colors[coord.getData("player")]});
         } else {
-            coord.elem.attr({fill: GameStyle['color']['coord']});
+            coord.elem.attr({fill: grid.style['coord']});
         }
     }
 }

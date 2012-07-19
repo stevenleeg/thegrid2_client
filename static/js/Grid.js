@@ -1,4 +1,4 @@
-var Grid = function(canvas, sx, sy) {
+var Grid = function(canvas, sx, sy, owner, colors, style) {
     this.r = 32;
     this.padding = 128;
     this.x = parseInt(sx);
@@ -12,6 +12,8 @@ var Grid = function(canvas, sx, sy) {
     this.hover = null;
     this.evt_callbacks = [];
     this.evt_filters = {};
+    this.colors = colors;
+    this.style = style;
 
     this.render = function() {
         var coord;
@@ -90,15 +92,15 @@ var Grid = function(canvas, sx, sy) {
 
         if(this.hover == null) return;
         if(PlaceCheck[this.place_type](this.hover)) {
-            this.hover.elem.attr({fill: GameStyle['color']['place_good']});
+            this.hover.elem.attr({fill: this.style['place_good']});
             this.hover.setData("place", true);
         } else {
-            this.hover.elem.attr({fill: GameStyle['color']['place_bad']});
+            this.hover.elem.attr({fill: this.style['place_bad']});
         }
     }
 
     this.normalMode = function() {
-        if(this.hover != null) this.hover.elem.attr({fill: GameStyle['color']['coord']});
+        if(this.hover != null) this.hover.elem.attr({fill: this.style['coord']});
 
         this.place_type = 0;
         this.place_mode = false;
@@ -199,7 +201,7 @@ var Grid = function(canvas, sx, sy) {
 }
 
 Grid.defaultCheck = function(coord) {
-    if(coord.isOwnedBy(GameData['pid']) && coord.getType() == 1) return true;
+    if(coord.isOwnedBy(coord.grid.owner) && coord.getType() == 1) return true;
     else return false;
 }
 
@@ -216,10 +218,10 @@ Grid.menuUp = function() {
 }
 
 Grid.menuOver = function() {
-    this.data("hex").attr({fill: GameStyle['color']['blue']});
+    this.data("hex").attr({fill: this.style['blue']});
 }
 
 Grid.menuOut = function() {
     if(this.data("hex") == undefined) return;
-    this.data("hex").attr({fill: GameStyle['color']['dark']});
+    this.data("hex").attr({fill: this.style['dark']});
 }
