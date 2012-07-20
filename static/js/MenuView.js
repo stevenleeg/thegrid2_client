@@ -260,9 +260,32 @@ var MenuView = function(context) {
         that.socket.on("g.delPlayer", that.onDelPlayer);
         that.socket.on("g.newHost", that.onNewHost);
         that.socket.on("g.startGrid", that.onStartGrid);
+        that.socket.on("g.newChat", that.onNewChat);
+        $("#menu_room_chat_input").bind("keydown", "return", that.onSendChat);
 
         // Store the data for later
         that.grid_data = data;
+        that.chat_height = 0;
+    }
+
+    // Called whenever someone chats
+    this.onNewChat = function(data) {
+        var msg =$("<div></div>")
+            .text(data.msg)
+            .addClass("room_chat_msg")
+            .css("border-color", that.grid_data.colors[data.pid])
+            .appendTo("#menu_room_chat");
+        that.chat_height += msg.height() * 2;
+        $("#menu_room_chat").scrollTop(that.chat_height);
+    }
+
+    // Called when the user presses enter on a chat box
+    this.onSendChat = function() {
+        that.socket.trigger("g.sendChat", {
+            msg: $(this).val()
+        });
+
+        $(this).val("");
     }
 
     // Called when a new player joins
