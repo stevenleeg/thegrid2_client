@@ -57,8 +57,9 @@ var GameView = function(context) {
 
         this.grid = new Grid($("#grid"), 16, 16, this.grid_data.pid, this.grid_data.colors, this.style);
         this.grid.render();
-        this.grid.load(this.grid_data.grid);
-        this.grid.colors = this.grid_data.colors;
+
+        // And setup a game
+        this.game = new Game(this.socket, this.grid);
 
         // Scroll the grid a little
         $("#grid_container").scrollTop(50).scrollLeft(50);
