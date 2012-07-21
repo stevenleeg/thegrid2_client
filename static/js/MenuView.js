@@ -23,8 +23,27 @@ var MenuView = function(context) {
         $("#menu_items_join").on("click", this, this.onShowBoxJoin);
         $("#menu_items_create").on("click", this, this.onShowBoxCreate);
         $("#menu_room_start").on("click", this, this.onStartGame);
+        
+        // Check to see if we even need to show the menu
+        if($.cookie("gid") != null && $.cookie("pid") != null && $.cookie("svr") != null) {
+            $("#menu_items").hide();
+            // Connect to the server
+            this.server = $.cookie("svr");
+            this.socket = new Socket(this.server, function() {
+                if(!that.socket.isConnected()) {
+                    $.cookie("svr", null);
+                    $.cookie("gid", null);
+                    $.cookie("pid", null);
+                    $("#menu_items").fadeIn();
+                }
 
-        if(DEBUG) {
+                that.socket.on("m.joinGridSuccess", that.onJoinSuccess);
+                that.socket.on("m.joinGridError", that.onJoinError);
+                that.socket.trigger("m.joinGrid", { id: parseInt($.cookie("gid")), pid: parseInt($.cookie("pid")) });
+            });
+        }
+
+        else if(DEBUG) {
             setTimeout(function() {
                 $("<input type=hidden id=box_connect_val />").appendTo("body");
                 $("#box_connect_val").val("localhost:8080");
@@ -223,7 +242,10 @@ var MenuView = function(context) {
 
     // Called when there is an error trying to join a grid
     this.onJoinError = function(data) {
-        alert(data.error);
+        $.cookie("svr", null);
+        $.cookie("gid", null);
+        $.cookie("pid", null);
+        $("#menu_items").fadeIn();
     }
 
     // Called when we recieve the event m.joinGridSuccess
@@ -254,6 +276,11 @@ var MenuView = function(context) {
             $("#menu_room_start").prop("disabled", false);
         if(data.host != data.pid)
             $("#menu_room_start").val("waiting");
+
+        // Set cookies
+        $.cookie("svr", that.server);
+        $.cookie("gid", data.id);
+        $.cookie("pid", data.pid);
 
         // Listen for new players
         that.socket.on("g.addPlayer", that.onNewPlayer);
