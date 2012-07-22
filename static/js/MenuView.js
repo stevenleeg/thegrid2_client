@@ -246,7 +246,7 @@ var MenuView = function(context) {
         $.cookie("svr", null);
         $.cookie("gid", null);
         $.cookie("pid", null);
-        $("#menu_items").fadeIn();
+        $("#menu_items, #menu_items a").fadeIn();
     }
 
     // Called when we recieve the event m.joinGridSuccess
