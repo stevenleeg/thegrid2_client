@@ -107,6 +107,7 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
 
         this.place_type = 0;
         this.place_mode = false;
+        this.emit("exitPlacemode");
     }
 
     // Registers a function to be called every time a

@@ -266,7 +266,6 @@ input[disabled] {
     left: 0px;
     right: 0px;
     height: 50px;
-    line-height: 50px;
 
     background: @light;
     border-top: 1px solid @darkgray;
@@ -309,6 +308,7 @@ input[disabled] {
 }
 
 .game_menu_item {
+    line-height: 50px;
     display: inline-block;
     font-size: 18px;
     text-decoration: none;
@@ -402,4 +402,24 @@ input[disabled] {
 	border-width: 16px;
 	left: 50%;
 	margin-left: -16px;
+}
+
+.game_menu_placemode {
+    display: inline-block;
+    height: 50px;
+    padding: 5px 20px 5px 20px;
+    line-height: 30px;
+    font-size: 20px;
+
+    .game_menu_placemode_placing {
+        font-size: 10px;
+        text-transform: uppercase;
+        font-weight: bold;
+        line-height: 10px;
+    }
+}
+
+.game_menu_placemode:hover {
+    background: @blue;
+    color: @light;
 }

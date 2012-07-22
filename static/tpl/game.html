@@ -7,9 +7,18 @@
 </div>
 
 <div class=game_menu>
-    <a opens=general move=15 id=game_menu_general class=game_menu_item><i class=icon-certificate></i> general</a>
-    <a opens=attack move=115 id=game_menu_attack class=game_menu_item><i class=icon-fire></i> attack</a>
-    <a opens=defend move=215 id=game_menu_defend class=game_menu_item><i class=icon-lock></i> defend</a>
+    <span id=game_menu_tiletypes>
+        <a opens=general move=15 id=game_menu_general class=game_menu_item><i class=icon-certificate></i> general</a>
+        <a opens=attack move=115 id=game_menu_attack class=game_menu_item><i class=icon-fire></i> attack</a>
+        <a opens=defend move=215 id=game_menu_defend class=game_menu_item><i class=icon-lock></i> defend</a>
+    </span>
+
+    <a class=game_menu_placemode id=game_menu_placemode>
+        <div class=game_menu_placemode_placing>
+            placing:
+        </div>
+        <i class=icon-flag></i> <span>territory</span>
+    </a>
 
     <div class=game_menu_right>
         <div class=game_menu_status><i class=icon-map-marker></i> 6/10</div>

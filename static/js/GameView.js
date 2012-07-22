@@ -39,6 +39,7 @@ var GameView = function(context) {
 
         $(".game_menu_item").on("click", self.onClickType);
         $(".game_menu_popover_section tr").on("click", self.onClickTile);
+        $("#game_menu_placemode").on("click", self.onClickPlacemode).hide();
 
         // Start up the grid
         self.grid = new Grid(
@@ -55,6 +56,9 @@ var GameView = function(context) {
 
         // Scroll the grid a little
         $("#grid_container").scrollTop(50).scrollLeft(50);
+
+        // Events from the grid
+        self.grid.on("exitPlacemode", self.exitPlacemode);
     }
 
     // Called when a tile type menu is clicked
@@ -70,5 +74,20 @@ var GameView = function(context) {
         var type = $(this).attr("places");
         self.grid.placeMode(type);
         BaseUI.hideWithScreen("#game_menu_popover");
+        $("#game_menu_tiletypes").hide();
+
+        var placemode = $("#game_menu_placemode").show();
+        placemode.children("i").attr("class", $(this).children("td:first-child").children("i").attr("class"));
+        placemode.children("span").text($(this).children("td:nth-child(2)").text());
+    }
+
+    // Called when a user presses esc or clicks placemode
+    self.onClickPlacemode = function() {
+        self.grid.normalMode();
+    }
+    // Called when placemode is exited
+    self.exitPlacemode = function() {
+        $("#game_menu_tiletypes").show();
+        $("#game_menu_placemode").hide();
     }
 }
