@@ -1,16 +1,16 @@
 /*
  * Game object
- * This class handles interaction with the server, modifying a Grid
+ * This class handles interaction with the server and user modifying a Grid
  * object as it works.
  */
 var Game = function(socket, grid) {
-    this.socket = socket;
-    this.grid = grid;
+    var self = this;
 
-    var that = this;
+    self.socket = socket;
+    self.grid = grid;
 
-    this.updateCoord = function(data) {
-        var coord = that.grid.get(data.coord);
+    self.rUpdateCoord = function(data) {
+        var coord = self.grid.get(data.coord);
         coord.destroy();
 
         coord.setOwner(data.player);
@@ -18,13 +18,22 @@ var Game = function(socket, grid) {
         coord.setHealth(data.health);
     }
 
-    this.setDump = function(data) {
-        that.grid.load(data);
+    self.rSetDump = function(data) {
+        self.grid.load(data);
+    }
+
+    self.lPlaceTile = function(coord) {
+        self.socket.emit("g.placeTile", {
+            coord: coord.str,
+            tile: self.grid.placeType()
+        });
     }
 
     // Assign all of the events to their listeners
-    this.socket.on("g.updateCoord", this.updateCoord);
-    this.socket.on("g.setDump", this.setDump);
+    self.socket.on("g.updateCoord", self.rUpdateCoord);
+    self.socket.on("g.setDump", self.rSetDump);
 
-    this.socket.trigger("g.getDump");
+    self.grid.on("placeTile", self.lPlaceTile);
+
+    self.socket.trigger("g.getDump");
 }

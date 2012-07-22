@@ -35,6 +35,7 @@ var MenuView = function(context) {
                     $.cookie("gid", null);
                     $.cookie("pid", null);
                     $("#menu_items").fadeIn();
+                    that.socket = null;
                 }
 
                 that.socket.on("m.joinGridSuccess", that.onJoinSuccess);
@@ -43,7 +44,7 @@ var MenuView = function(context) {
             });
         }
 
-        else if(DEBUG) {
+        if(DEBUG && this.socket == null) {
             setTimeout(function() {
                 $("<input type=hidden id=box_connect_val />").appendTo("body");
                 $("#box_connect_val").val("localhost:8080");

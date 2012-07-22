@@ -7,9 +7,9 @@
 </div>
 
 <div class=game_menu>
-    <a id=game_menu_general class=game_menu_item><i class=icon-certificate></i> general</a>
-    <a id=game_menu_attack class=game_menu_item><i class=icon-fire></i> attack</a>
-    <a id=game_menu_defend class=game_menu_item><i class=icon-lock></i> defend</a>
+    <a opens=general move=15 id=game_menu_general class=game_menu_item><i class=icon-certificate></i> general</a>
+    <a opens=attack move=115 id=game_menu_attack class=game_menu_item><i class=icon-fire></i> attack</a>
+    <a opens=defend move=215 id=game_menu_defend class=game_menu_item><i class=icon-lock></i> defend</a>
 
     <div class=game_menu_right>
         <div class=game_menu_status><i class=icon-map-marker></i> 6/10</div>
@@ -26,23 +26,23 @@
 <div id=game_menu_popover class=game_menu_popover>
     <div class=game_menu_popover_section id=game_menu_popover_general>
         <table>
-            <tr><td><i class=icon-flag></i></td><td>territory</td><td>$25</td></tr>
-            <tr><td><i class=icon-home></i></td><td>house</td><td>$50</td></tr>
-            <tr><td><i class=icon-legal></i></td><td>miner</td><td>$100</td></tr>
+            <tr places=1><td><i class=icon-flag></i></td><td>territory</td><td>$25</td></tr>
+            <tr places=5><td><i class=icon-home></i></td><td>house</td><td>$50</td></tr>
+            <tr places=3><td><i class=icon-legal></i></td><td>miner</td><td>$100</td></tr>
         </table>
     </div>
     <div class=game_menu_popover_section id=game_menu_popover_attack>
         <table>
-            <tr><td><i class=icon-move></i></td><td>infector</td><td>$100</td></tr>
-            <tr><td><i class=icon-certificate></i></td><td>damager</td><td>$200</td></tr>
-            <tr><td><i class=icon-bolt></i></td><td>cannon</td><td>$200</td></tr>
+            <tr places=4><td><i class=icon-move></i></td><td>infector</td><td>$100</td></tr>
+            <tr places=6><td><i class=icon-certificate></i></td><td>damager</td><td>$200</td></tr>
+            <tr places=10><td><i class=icon-bolt></i></td><td>cannon</td><td>$200</td></tr>
         </table>
     </div>
     <div class=game_menu_popover_section id=game_menu_popover_defend>
         <table>
-            <tr><td><i class=icon-sign-blank></i></td><td>wall</td><td>$100</td></tr>
-            <tr><td><i class=icon-minus-sign></i></td><td>defender</td><td>$25</td></tr>
-            <tr><td><i class=icon-rss></i></td><td>shield</td><td>$200</td></tr>
+            <tr places=7><td><i class=icon-sign-blank></i></td><td>wall</td><td>$100</td></tr>
+            <tr places=8><td><i class=icon-minus-sign></i></td><td>defender</td><td>$25</td></tr>
+            <tr places=9><td><i class=icon-rss></i></td><td>shield</td><td>$200</td></tr>
         </table>
     </div>
 </div>

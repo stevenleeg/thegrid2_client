@@ -13,9 +13,9 @@ var GameView = function(context) {
         health_good: "#3FCD45",
         health_bad: "#FF401C"
     }
-    var that = this;
+    var self = this;
     
-    this.onLoad = function() {
+    self.onLoad = function() {
         if($.cookie("disable_fs") == undefined) {
             setTimeout(function() {
                 $(".game_fullscreen_request").fadeIn(500);
@@ -36,32 +36,39 @@ var GameView = function(context) {
         $("#activate_menu").on("click", function() {
            BaseUI.showWithScreen("#game_popover_menu"); 
         });
-        $("#game_menu_general").on("click", function() {
-            $("#game_menu_popover").css("left", 15);
-            BaseUI.showWithScreen("#game_menu_popover", true);
-            $(".game_menu_popover_section").hide();
-            $("#game_menu_popover_general").show();
-        });
-        $("#game_menu_attack").on("click", function() {
-            $("#game_menu_popover").css("left", 115);
-            BaseUI.showWithScreen("#game_menu_popover", true);
-            $(".game_menu_popover_section").hide();
-            $("#game_menu_popover_attack").show();
-        });
-        $("#game_menu_defend").on("click", function() {
-            $("#game_menu_popover").css("left", 215);
-            BaseUI.showWithScreen("#game_menu_popover", true);
-            $(".game_menu_popover_section").hide();
-            $("#game_menu_popover_defend").show();
-        });
 
-        this.grid = new Grid($("#grid"), 16, 16, this.grid_data.pid, this.grid_data.colors, this.style);
-        this.grid.render();
+        $(".game_menu_item").on("click", self.onClickType);
+        $(".game_menu_popover_section tr").on("click", self.onClickTile);
+
+        // Start up the grid
+        self.grid = new Grid(
+            $("#grid"), 
+            16, 16, 
+            self.grid_data.pid, 
+            self.grid_data.colors, 
+            self.style
+        );
+        self.grid.render();
 
         // And setup a game
-        this.game = new Game(this.socket, this.grid);
+        self.game = new Game(self.socket, self.grid);
 
         // Scroll the grid a little
         $("#grid_container").scrollTop(50).scrollLeft(50);
+    }
+
+    // Called when a tile type menu is clicked
+    self.onClickType = function() {
+        $("#game_menu_popover").css("left", parseInt($(this).attr("move")));
+        BaseUI.showWithScreen("#game_menu_popover", true);
+        $(".game_menu_popover_section").hide();
+        $("#game_menu_popover_" + $(this).attr("opens")).show();
+    }
+
+    // Called when a tile type is clicked in the menu
+    self.onClickTile = function() {
+        var type = $(this).attr("places");
+        self.grid.placeMode(type);
+        BaseUI.hideWithScreen("#game_menu_popover");
     }
 }

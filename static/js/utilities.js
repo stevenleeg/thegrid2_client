@@ -141,7 +141,7 @@ var Socket = function(server, open_callback) {
     // Attempt to connect
     this.socket = new WebSocket("ws://" + server + "/api/socket", "grid-1.0");
 
-    this.trigger = function(event, data) {
+    this.emit = function(event, data) {
         var send = {};
         if(data == undefined) data = {};
 
@@ -151,6 +151,10 @@ var Socket = function(server, open_callback) {
         send.e = event;
         send.data = data;
         this.socket.send(JSON.stringify(send));
+    }
+
+    this.trigger = function(event, data) {
+        that.emit(event, data);
     }
 
     this.onMessage = function(evt) {
@@ -209,3 +213,8 @@ var Socket = function(server, open_callback) {
     this.socket.onmessage = this.onMessage;
     this.socket.onclose = this.onClose;
 };
+
+/*
+ * Used for general event handling
+ */
+var EventManager = new EventEmitter();

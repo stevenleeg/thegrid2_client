@@ -112,9 +112,9 @@ var Coord = function(grid, x, y) {
             selected = this.direction(dir);
             // Make sure the coord we're looking at is in the grid
             if(selected.is_real == false) continue;
-            if(selected.getType() == type || (owner && type == 1)) {
-                if(owner && selected.isOwnedBy(owner)) return true;
-                if(!owner) return true;
+            if(selected.getType() == type || (owner != undefined && type == 1)) {
+                if(owner != undefined && selected.isOwnedBy(owner)) return true;
+                if(owner == undefined) return true;
             }
         }
 
@@ -373,7 +373,7 @@ Coord.mouseup = function(e) {
 
     if(grid.place_mode) {
         grid.hover = null;
-        GameEvents.placeTile(coord);
+        grid.emit("placeTile", coord);
         grid.hover = coord;
     } else {
         if(grid.health == null) return;
@@ -390,7 +390,7 @@ Coord.mouseover = function() {
 
     grid.hover = coord;
     if(grid.place_mode) {
-        if(PlaceCheck[grid.place_type](coord)) {
+        if(PlaceCheck[grid.place_type](grid, coord)) {
             coord.elem.attr({fill: grid.style['place_good']});
             coord.setData("place", true);
         } else {
@@ -407,7 +407,7 @@ Coord.mouseout = function() {
 
     if(grid.place_mode) {
         coord.rmData("place");
-        if(coord.getData("player") > 0) {
+        if(coord.getData("player") != undefined) {
             coord.elem.attr({fill: grid.colors[coord.getData("player")]});
         } else {
             coord.elem.attr({fill: grid.style['coord']});

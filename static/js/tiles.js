@@ -1,13 +1,11 @@
 var PlaceCheck = {
-    1: function(coord) {
-        if (coord.inRangeOf(1, GameData['pid']) && !coord.exists()) {
+    1: function(grid, coord) {
+        if(coord.inRangeOf(1, grid.owner) && !coord.exists())
             return true;
-        } else {
-            return false;
-        }
+        return false;
     },
-    3: function(coord) {
-        if (coord.inRangeOf(99) && coord.isOwnedBy(GameData['pid']) && coord.getType() == 1) {
+    3: function(grid, coord) {
+        if (coord.inRangeOf(99) && coord.isOwnedBy(grid.owner) && coord.getType() == 1) {
             return true;
         }
 
@@ -17,8 +15,8 @@ var PlaceCheck = {
     5: Grid.defaultCheck,
     6: Grid.defaultCheck,
     7: Grid.defaultCheck,
-    8: function(coord) {
-        if(coord.isOwnedBy(GameData['pid'])) {
+    8: function(grid, coord) {
+        if(coord.isOwnedBy(grid.owner)) {
             return true;
         }
         return false;

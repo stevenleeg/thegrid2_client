@@ -14,6 +14,9 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
     this.evt_filters = {};
     this.colors = colors;
     this.style = style;
+    this.owner = owner;
+
+    EventEmitter.apply(this);
 
     this.render = function() {
         var coord;
@@ -200,8 +203,10 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
     }
 }
 
-Grid.defaultCheck = function(coord) {
-    if(coord.isOwnedBy(coord.grid.owner) && coord.getType() == 1) return true;
+Grid.prototype = EventEmitter.extend();
+
+Grid.defaultCheck = function(grid, coord) {
+    if(coord.isOwnedBy(grid.owner) && coord.getType() == 1) return true;
     else return false;
 }
 
