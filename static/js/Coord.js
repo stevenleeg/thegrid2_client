@@ -46,7 +46,7 @@ var Coord = function(grid, x, y) {
     // Sets the tile type
     this.setType = function(type) {
         var point, img;
-        this.setData("type", type);
+        this.setData("type", parseInt(type));
         
         if(type < 2) return;
         point = this.point();

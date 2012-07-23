@@ -13,8 +13,8 @@ var Game = function(socket, grid) {
         var coord = self.grid.get(data.coord);
         coord.destroy();
 
+        coord.setType(data.type);
         coord.setOwner(data.player);
-        coord.setType(data.tile);
         coord.setHealth(data.health);
     }
 
@@ -25,7 +25,7 @@ var Game = function(socket, grid) {
     self.lPlaceTile = function(coord) {
         self.socket.emit("g.placeTile", {
             coord: coord.str,
-            tile: self.grid.placeType()
+            type: self.grid.place_type
         });
     }
 
