@@ -372,6 +372,10 @@ Coord.mouseup = function(e) {
     var coord = grid.get(this.data("coord"));
 
     if(grid.place_mode) {
+        // Make sure they're allowed to do this
+        if(this.data("place") != true) return;
+
+        // Yep, so let's continue
         grid.hover = null;
         grid.emit("placeTile", coord);
         grid.hover = coord;
