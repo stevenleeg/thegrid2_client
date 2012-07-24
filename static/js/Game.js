@@ -3,11 +3,12 @@
  * This class handles interaction with the server and user modifying a Grid
  * object as it works.
  */
-var Game = function(socket, grid) {
+var Game = function(socket, grid, view) {
     var self = this;
 
     self.socket = socket;
     self.grid = grid;
+    self.view = view;
 
     /*
      * Remote events
@@ -23,6 +24,20 @@ var Game = function(socket, grid) {
         coord.setType(data.type);
         coord.setOwner(data.player);
         coord.setHealth(data.health);
+    }
+
+    // Called when the server sets our territory
+    self.rSetTerritory = function(data) {
+        self.view.setTerritory(data.tused, data.tlim);
+    }
+
+    // Called when the server sets our cash
+    self.rSetCash = function(data) {
+        self.view.setCash(data.cash);
+    }
+    
+    self.rSetIncome = function(data) {
+        self.view.setIncome(data.income);
     }
 
     // Receives a grid dump and sets it on the grid
@@ -49,6 +64,9 @@ var Game = function(socket, grid) {
     // Assign remote listeneres
     self.socket.on("g.updateCoord", self.rUpdateCoord);
     self.socket.on("g.setDump", self.rSetDump);
+    self.socket.on("g.setCash", self.rSetCash);
+    self.socket.on("g.setTerritory", self.rSetTerritory);
+    self.socket.on("g.setIncome", self.rSetIncome);
 
     // Assign local listeners
     self.grid.on("placeTile", self.lPlaceTile);

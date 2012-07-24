@@ -57,7 +57,7 @@ var GameView = function(context) {
         self.grid.render();
 
         // And setup a game
-        self.game = new Game(self.socket, self.grid);
+        self.game = new Game(self.socket, self.grid, self);
 
         // Scroll the grid a little
         $("#grid_container").scrollTop(50).scrollLeft(50);
@@ -154,5 +154,22 @@ var GameView = function(context) {
         $("#game_menu_placemode").hide();
         $("#game_menu_tiletypes .selected").removeClass("selected");
         self.type_selected = null;
+    }
+
+    /*
+     * Methods for altering the UI.
+     * These are mostly called by Game when the server changes things
+     */
+    self.setCash = function(amt) {
+        $("#game_menu_cash").text(amt);
+    }
+
+    self.setTerritory = function(tused, tlim) {
+        $("#game_menu_tused").text(tused);
+        $("#game_menu_tlim").text(tlim);
+    }
+
+    self.setIncome = function(amt) {
+        $("#game_menu_income").text(amt);
     }
 }
