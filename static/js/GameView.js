@@ -2,6 +2,7 @@ var GameView = function(context) {
     this.tpl = "game.html";
     this.socket = context.socket;
     this.grid_data = context.grid_data;
+    this.scrolling = {};
     this.style = {
         blue: "#10A1FF",
         dark: "#1D1D1D",
@@ -68,6 +69,36 @@ var GameView = function(context) {
 
     // Sets up all key events
     self.setupKeys = function() {
+        $(document).bind("keydown", "up down left right", function(e) {
+            var x, y, move;
+            move = 10;
+            x = 0;
+            y = 0;
+            // 37: left
+            // 38: up
+            // 39: right
+            // 40: down
+
+            // If the button is already being pressed, we stop
+            if(self.scrolling[e.which] != undefined) return;
+            if(e.which == 37)
+                x = -move;
+            else if(e.which == 38)
+                y = -move;
+            else if(e.which == 39)
+                x = move;
+            else if(e.which == 40)
+                y = move;
+            
+            self.scrolling[e.which] = setInterval(function() {
+                self.panViewport(x, y);
+            }, 10);
+        });
+        $(document).bind("keyup", "up down left right", function(e) {
+            clearInterval(self.scrolling[e.which]);
+            delete(self.scrolling[e.which]);
+        });
+        
         $(document).bind("keydown", "esc", function() {
             if($("#game_menu_popover").is(":visible"))
                 $("#ui_screen").click();
@@ -171,5 +202,12 @@ var GameView = function(context) {
 
     self.setIncome = function(amt) {
         $("#game_menu_income").text(amt);
+    }
+
+    self.panViewport = function(x, y) {
+        var cont = $("#grid_container");
+        cont
+            .scrollTop(cont.scrollTop() + y)
+            .scrollLeft(cont.scrollLeft() + x);
     }
 }
