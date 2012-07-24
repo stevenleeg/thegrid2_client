@@ -379,6 +379,10 @@ Coord.mouseup = function(e) {
         grid.hover = null;
         grid.emit("placeTile", coord);
         grid.hover = coord;
+        if(coord.getData("player") != undefined)
+            coord.elem.attr({fill: grid.colors[coord.getData("player")]});
+        else
+            coord.elem.attr({fill: grid.style['coord']});
     } else {
         if(grid.health == null) return;
         coord = grid.health;
