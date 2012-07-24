@@ -8,7 +8,7 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
     this.canvas = new Raphael(canvas.get(0), canvas.width(), canvas.height());
     this.grid = {};
     this.place_mode = false;
-    this.place_type = 0;
+    this.place_type = null;
     this.hover = null;
     this.evt_callbacks = [];
     this.evt_filters = {};
@@ -93,8 +93,8 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
         this.place_type = type;
         this.place_mode = true;
 
-        if(this.hover == null) return;
-        if(PlaceCheck[this.place_type](this.hover)) {
+        if(this.hover == null || this.hover == undefined) return;
+        if(PlaceCheck[this.place_type](this, this.hover)) {
             this.hover.elem.attr({fill: this.style['place_good']});
             this.hover.setData("place", true);
         } else {
