@@ -13,6 +13,7 @@ var GameView = function(context) {
         health_good: "#3FCD45",
         health_bad: "#FF401C"
     }
+    this.type_selected = null;
     var self = this;
     
     self.onLoad = function() {
@@ -37,9 +38,13 @@ var GameView = function(context) {
            BaseUI.showWithScreen("#game_popover_menu"); 
         });
 
+        // General clicking events
         $(".game_menu_item").on("click", self.onClickType);
         $(".game_menu_popover_section tr").on("click", self.onClickTile);
         $("#game_menu_placemode").on("click", self.onClickPlacemode).hide();
+        
+        // Replicating those click events with key combos
+        self.setupKeys();
 
         // Start up the grid
         self.grid = new Grid(
@@ -61,19 +66,77 @@ var GameView = function(context) {
         self.grid.on("exitPlacemode", self.exitPlacemode);
     }
 
+    // Sets up all key events
+    self.setupKeys = function() {
+        $(document).bind("keydown", "esc", function() {
+            if($("#game_menu_popover").is(":visible"))
+                $("#ui_screen").click();
+            else if(self.grid.place_mode)
+                $("#game_menu_placemode").click();
+        });
+        $(document).bind("keypress", "a", function() {
+            $("#game_menu_attack").click();
+        });
+        $(document).bind("keypress", "c", function() {
+            if($("#game_menu_popover_attack").is(":visible"))  
+                $("tr[places=10]").click();
+        })
+        $(document).bind("keypress", "d", function() {
+            if(self.type_selected == "attack")  
+                $("tr[places=6]").click();
+            else if(self.type_selected == "defend")  
+                $("tr[places=8]").click();
+            else 
+                $("#game_menu_defend").click();
+        });
+        $(document).bind("keypress", "g", function() {
+            $("#game_menu_general").click();
+        });
+        $(document).bind("keypress", "h", function() {
+            if(self.type_selected == "general")  
+                $("tr[places=5]").click();
+        })
+        $(document).bind("keypress", "h", function() {
+            if(self.type_selected == "attack")  
+                $("tr[places=4]").click();
+        })
+        $(document).bind("keypress", "m", function() {
+            if(self.type_selected == "general")  
+                $("tr[places=3]").click();
+        })
+        $(document).bind("keypress", "s", function() {
+            if(self.type_selected == "defend")  
+                $("tr[places=9]").click();
+        })
+        $(document).bind("keypress", "t", function() {
+            if(self.type_selected == "general")  
+                $("tr[places=1]").click();
+        })
+        $(document).bind("keypress", "w", function() {
+            if(self.type_selected == "defend")  
+                $("tr[places=7]").click();
+        })
+    }
     // Called when a tile type menu is clicked
-    self.onClickType = function() {
+    self.onClickType = function(e) {
         $("#game_menu_popover").css("left", parseInt($(this).attr("move")));
-        BaseUI.showWithScreen("#game_menu_popover", true);
-        $(".game_menu_popover_section").hide();
-        $("#game_menu_popover_" + $(this).attr("opens")).show();
+
+        if(e.which != undefined) {
+            $(".game_menu_popover_section").hide();
+            BaseUI.showWithScreen("#game_menu_popover", true);
+            $("#game_menu_popover_" + $(this).attr("opens")).show();
+        } else {
+            $(this).addClass("selected");
+            self.type_selected = $(this).attr("opens");
+        }
     }
 
     // Called when a tile type is clicked in the menu
-    self.onClickTile = function() {
+    self.onClickTile = function(e) {
         var type = $(this).attr("places");
         self.grid.placeMode(type);
         BaseUI.hideWithScreen("#game_menu_popover");
+        $("#game_menu_tiletypes .selected").removeClass("selected");
         $("#game_menu_tiletypes").hide();
 
         var placemode = $("#game_menu_placemode").show();
@@ -89,5 +152,7 @@ var GameView = function(context) {
     self.exitPlacemode = function() {
         $("#game_menu_tiletypes").show();
         $("#game_menu_placemode").hide();
+        $("#game_menu_tiletypes .selected").removeClass("selected");
+        self.type_selected = null;
     }
 }
