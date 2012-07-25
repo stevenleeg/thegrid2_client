@@ -104,9 +104,14 @@ var GameView = function(context) {
                 $("#ui_screen").click();
             else if(self.grid.place_mode)
                 $("#game_menu_placemode").click();
+            else if(self.type_selected != null) {
+                self.type_selected = null;
+                $("#game_menu_tiletypes .selected").removeClass("selected");
+            }
         });
         $(document).bind("keypress", "a", function() {
-            $("#game_menu_attack").click();
+            if(self.type_selected == null)
+                $("#game_menu_attack").click();
         });
         $(document).bind("keypress", "c", function() {
             if($("#game_menu_popover_attack").is(":visible"))  
@@ -117,19 +122,20 @@ var GameView = function(context) {
                 $("tr[places=6]").click();
             else if(self.type_selected == "defend")  
                 $("tr[places=8]").click();
-            else 
+            else if(self.type_selected == null)
                 $("#game_menu_defend").click();
         });
+        $(document).bind("keypress", "f", function() {
+            if(self.type_selected == "attack")  
+                $("tr[places=4]").click();
+        })
         $(document).bind("keypress", "g", function() {
-            $("#game_menu_general").click();
+            if(self.type_selected == null)
+                $("#game_menu_general").click();
         });
         $(document).bind("keypress", "h", function() {
             if(self.type_selected == "general")  
                 $("tr[places=5]").click();
-        })
-        $(document).bind("keypress", "h", function() {
-            if(self.type_selected == "attack")  
-                $("tr[places=4]").click();
         })
         $(document).bind("keypress", "m", function() {
             if(self.type_selected == "general")  
