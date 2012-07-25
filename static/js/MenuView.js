@@ -251,6 +251,11 @@ var MenuView = function(context) {
 
     // Called when we recieve the event m.joinGridSuccess
     this.onJoinSuccess = function(data) {
+        // Set cookies
+        $.cookie("svr", that.server);
+        $.cookie("gid", data.id);
+        $.cookie("pid", data.pid);
+
         if(data.active) {
             BaseUI.hideWithScreen("#box_join");
             Main.view_controller.load(GameView, {
@@ -278,10 +283,6 @@ var MenuView = function(context) {
         if(data.host != data.pid)
             $("#menu_room_start").val("waiting");
 
-        // Set cookies
-        $.cookie("svr", that.server);
-        $.cookie("gid", data.id);
-        $.cookie("pid", data.pid);
 
         // Listen for new players
         that.socket.on("g.addPlayer", that.onNewPlayer);
