@@ -103,7 +103,12 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
     }
 
     this.normalMode = function() {
-        if(this.hover != null) this.hover.elem.attr({fill: this.style['coord']});
+        if(this.hover != null) {
+            if(this.hover.getData("player") != undefined)
+                this.hover.elem.attr({fill: this.colors[this.hover.getData("player")]});
+            else
+                this.hover.elem.attr({fill: this.style['coord']});
+        }
 
         this.place_type = 0;
         this.place_mode = false;
