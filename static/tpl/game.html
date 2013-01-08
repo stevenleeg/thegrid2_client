@@ -24,12 +24,23 @@
         <div class=game_menu_status><i class=icon-map-marker></i> <span id=game_menu_tused>6</span>/<span id=game_menu_tlim>10</span></div>
         <div class=game_menu_status><i class=icon-download></i> <span id=game_menu_income>25</span></div>
         <div class=game_menu_status><b>$</b> <span id=game_menu_cash>242</span></div>
-         <a id=activate_menu class=game_menu_item><i class=icon-align-justify></i></a>
+        <a id=activate_menu class=game_menu_status><i class=icon-align-justify></i></a>
     </div>
 </div>
 
 <div class=menu_box id=game_popover_menu>
-    <h1>main menu</h1>
+    <h1>menu</h1>
+    <table class=room_list>
+        <tr>
+            <td id=menu_room_p0>player 1</td>
+            <td id=menu_room_p2>player 3</td>
+        </tr>
+        <tr>
+            <td id=menu_room_p1>player 2</td>
+            <td id=menu_room_p3>player 4</td>
+        </tr>
+    </table>
+    <input type=button value=Leave />
 </div>
 
 <div id=game_menu_popover class=game_menu_popover>
