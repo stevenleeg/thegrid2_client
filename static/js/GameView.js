@@ -43,6 +43,12 @@ var GameView = function(context) {
         $(".game_menu_item").on("click", self.onClickType);
         $(".game_menu_popover_section tr").on("click", self.onClickTile);
         $("#game_menu_placemode").on("click", self.onClickPlacemode).hide();
+
+        // Disable right click. The context menu just gets
+        // in the way of everything.
+        $("body").on("contextmenu", function(e) {
+            return false;
+        });
         
         // Replicating those click events with key combos
         self.setupKeys();
