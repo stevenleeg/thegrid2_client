@@ -155,57 +155,11 @@ var Grid = function(canvas, sx, sy, owner, colors, style) {
     }
 
     this.showMenu = function(coord) {
-        // Find the locations of each hexagon around us
-        var around = coord.around();
-        var points = {};
-        var hexes = [];
-
-        // Add in any default menus
-        var menus = (coord.property("menu") != undefined) ? coord.property("menu") : {};
-        for(var dir in Coord.defaultProperty("menu")) menus[dir] = Coord.defaultProperty("menu")[dir];
-
-        for(var dir in menus) {
-            var around = coord.direction(dir, true);
-            var point = this.translate(around[0], around[1]);
-            var set = this.canvas.set();
-            var hex = this.canvas.hexagon(point[0], point[1], 32);
-            hex.attr({
-                fill: "#000",
-                opacity:0,
-                stroke: 0,
-                transform:"r30"
-            });
-            hex.animate({opacity:.95}, 75);
-            set.push(hex);
-            // Find out if we're overlaying text
-            if(menus[dir]['text'] != undefined) {
-                var text = this.canvas.text(point[0], point[1], menus[dir]['text']);
-                text.attr({fill:"#FFF", "font-size": 14});
-                set.push(text);
-            }
-            set.data("coord", coord)
-                .data("grid", this)
-                .data("dir", dir)
-                .data("hex", hex);
-            set.mouseup(Grid.menuUp);
-            set.mouseover(Grid.menuOver);
-            set.mouseout(Grid.menuOut);
-            
-            hexes.push(set);
-        }
-
-        coord.setData("menu", hexes);
+        console.log("To be implemented");
     }
 
     this.hideMenu = function(coord) {
-        var hexes = coord.getData("menu");
-        if(hexes == undefined) return;
-        for(item in hexes) {
-            hexes[item].animate({opacity:0});
-            hexes[item].remove();
-        }
-
-        coord.rmData("menu");
+        console.log("To be implemented");
     }
 }
 
@@ -214,25 +168,4 @@ Grid.prototype = EventEmitter.extend();
 Grid.defaultCheck = function(grid, coord) {
     if(coord.isOwnedBy(grid.owner) && coord.getType() == 1) return true;
     else return false;
-}
-
-Grid.menuUp = function() {
-    var coord = this.data("coord");
-    var grid = this.data("grid");
-    var menu =  coord.property("menu");
-
-    if(menu == undefined) menu = Coord.defaultProperty("menu");
-    menu[this.data("dir")]['onSelect'](grid, coord);
-
-    grid.hideMenu(coord);
-    coord.hideHealth();
-}
-
-Grid.menuOver = function() {
-    this.data("hex").attr({fill: this.style['blue']});
-}
-
-Grid.menuOut = function() {
-    if(this.data("hex") == undefined) return;
-    this.data("hex").attr({fill: this.style['dark']});
 }
