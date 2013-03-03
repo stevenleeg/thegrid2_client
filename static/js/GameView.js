@@ -40,6 +40,7 @@ var GameView = function(context) {
         // General clicking events
         $(".game_menu_item").on("click", self.onClickType);
         $(".game_menu_popover_section tr").on("click", self.onClickTile);
+        $("#game_popover_menu_leave").on("click", self.onClickLeave);
         $("#game_menu_placemode").on("click", self.onClickPlacemode).hide();
 
         // Disable right click. The context menu just gets
@@ -163,6 +164,16 @@ var GameView = function(context) {
     self.onClickActivateMenu = function(e) {
         // Get the active users/colors from the grid
         BaseUI.showWithScreen("#game_popover_menu"); 
+    }
+
+    // Called when the user presses the Leave button in the game menu
+    self.onClickLeave = function(e) {
+        // Delete the cookies
+        $.cookie("svr", null);
+        $.cookie("gid", null);
+        $.cookie("pid", null);
+
+        location.reload();
     }
 
     // Called when a tile type menu is clicked
