@@ -35,9 +35,7 @@ var GameView = function(context) {
             $.cookie("disable_fs", true, {expires: 1});
         });
         // Activated when the menu button is clicked
-        $("#activate_menu").on("click", function() {
-           BaseUI.showWithScreen("#game_popover_menu"); 
-        });
+        $("#activate_menu").on("click", self.onClickActivateMenu);
 
         // General clicking events
         $(".game_menu_item").on("click", self.onClickType);
@@ -160,6 +158,13 @@ var GameView = function(context) {
                 $("tr[places=7]").click();
         })
     }
+    
+    // Called when the user clicks the menu button
+    self.onClickActivateMenu = function(e) {
+        // Get the active users/colors from the grid
+        BaseUI.showWithScreen("#game_popover_menu"); 
+    }
+
     // Called when a tile type menu is clicked
     self.onClickType = function(e) {
         $("#game_menu_popover").css("left", parseInt($(this).attr("move")));

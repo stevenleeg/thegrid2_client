@@ -111,7 +111,7 @@ input[type=text] {
     border-bottom: 1px dotted @darkish;
 }
 
-input[type=submit] {
+input[type=submit], input[type=button] {
     width: 100px;
     background: @blue;
     color: @light;
@@ -119,11 +119,11 @@ input[type=submit] {
     margin: 5px 0px 5px 0px;
 }
 
-input[type=submit]:not([disabled]):hover {
+input[type=submit]:not([disabled]):hover, input[type=button]:not([disabled]):hover {
     background: darken(@blue, 5%);
 }
 
-input[type=submit]:not([disabled]):active {
+input[type=submit]:not([disabled]):active, input[type=button]:not([disabled]):active {
     background: darken(@blue, 5%);
     box-shadow: inset 0px 0px 15px @dark;
 }
